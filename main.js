@@ -18,21 +18,41 @@ let insertZ = [
   "turned into a slug and crawled away",
 ];
 
-randomize.addEventListener('click', result);
+randomize.addEventListener("click", result);
 
 function result() {
+  //1 storyText の値を newStory 変数に格納
+  let newStory = storyText;
 
-  if(customName.value !== '') {
+  //2 配列の中からランダムに要素を取り出す
+  let xItem = randomValueFromArray(insertX);
+  let yItem = randomValueFromArray(insertY);
+  let zItem = randomValueFromArray(insertZ);
+
+  //3 newStory の中のプレースホルダーを置き換える
+  newStory = newStory
+    .replace(":insertx:", xItem)
+    .replace(":inserty:", yItem)
+    .replace(":insertz:", zItem)
+    .replace(":insertx:", xItem);
+
+  //4 'Bob'を customeNameの入力値で置き換える
+  if (customName.value !== "") {
     let name = customName.value;
-
+    newStory = newStory.replace("Bob", name);
   }
 
-  if(document.getElementById("uk").checked) {
-    let weight = Math.round(300);
-    let temperature =  Math.round(94);
+  //5 ukの場合、重さと温度の単位を置き換える
+  if (document.getElementById("uk").checked) {
+    let weight = Math.round(300 / 14) + " stone";
+    let temperature = Math.round(((94 - 32) * 5) / 9) + " centigrade";
 
+    newStory = newStory
+      .replace("94 fahrenheit", temperature)
+      .replace("300 pounds", weight);
   }
 
-  story.textContent = ;
-  story.style.visibility = 'visible';
+  //6 HTMLにテキストを表示する
+  story.textContent = newStory;
+  story.style.visibility = "visible";
 }
